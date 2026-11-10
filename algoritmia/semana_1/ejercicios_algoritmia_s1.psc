@@ -6,12 +6,16 @@
     Escribir "Has vivido ", dias, " días"
 FinAlgoritmo
 
+
+
 ##Algoritmo Saludo
     Definir nombre Como Caracter
     Escribir "¿Cómo te llamas?"
     Leer nombre
     Escribir "Hola, ", nombre, ". Bienvenido a Algoritmia"
 FinAlgoritmo
+
+
 
 ##Algoritmo Propinas
     Definir cuenta, porcentaje, personas, propina, total, porPersona Como Real
