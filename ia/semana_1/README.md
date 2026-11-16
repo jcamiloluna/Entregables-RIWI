@@ -1,86 +1,97 @@
-### 1 
-La diferencia clave que veo es que seguir una regla es como seguir un manual de instrucciones rígido: te dice exactamente paso a paso lo que tienes que hacer, pero si te sale un caso que no estaba escrito en el manual, te quedas trancado porque no sabes para dónde coger.
+### 1. Diferencia entre seguir reglas y aprender de ejemplos
 
-En cambio, aprender de ejemplos (que es más o menos como medio entiendo que entrenan a los modelos) es como cuando uno a punta de ensayo y error, viendo muchos casos reales, empieza a cogerle el truco y a reconocer patrones por cuenta propia. Aunque no tengas la teoría exacta o la regla formal grabada en la cabeza, el cerebro o el sistema se adaptan mejor a cosas nuevas porque ya vieron "cómo se ve" la solución antes.
+Para mí, la diferencia es que seguir reglas es como tener un manual que te dice exactamente qué hacer en cada situación. El problema es que, si aparece algo diferente a lo que dice el manual, puede que no sepas cómo solucionarlo.
 
+Por otro lado, aprender mediante ejemplos es más parecido a aprender con la práctica. Es decir, observar diferentes situaciones, cometer errores y poco a poco entender cómo funcionan las cosas. Así puedes reconocer situaciones parecidas y encontrar soluciones incluso cuando no tienes una regla exacta que te diga qué hacer.
 
-### 2
-1. Compara la tarjeta en **A** con la tarjeta en **B**.
-2. **SI** la tarjeta en **A** es mayor que la tarjeta en **B**, **ENTONCES** intercambia la tarjeta **A** con la tarjeta **B**.
-3. Compara la tarjeta en **B** con la tarjeta en **C**.
-4. **SI** la tarjeta en **B** es mayor que la tarjeta en **C**, **ENTONCES** intercambia la tarjeta **B** con la tarjeta **C**.
-5. Compara la tarjeta en **A** con la tarjeta en **B**.
-6. **SI** la tarjeta en **A** es mayor que la tarjeta en **B**, **ENTONCES** intercambia la tarjeta **A** con la tarjeta **B**.
+### 2. Ordenar tres tarjetas
 
-### 3
-Pistas para reconocer un mensaje no deseado (Features)
-Urgencia o amenazas falsas: Meten presión con que algo malo va a pasar rápido (ej. cuentas bloqueadas, plazos que vencen hoy).
+1. Compara la tarjeta A con la tarjeta B.
+2. **SI** A es mayor que B, **ENTONCES** intercambia sus posiciones.
+3. Compara la tarjeta B con la tarjeta C.
+4. **SI** B es mayor que C, **ENTONCES** intercambia sus posiciones.
+5. Vuelve a comparar la tarjeta A con la tarjeta B.
+6. **SI** A es mayor que B, **ENTONCES** intercambia sus posiciones.
 
-Promesas exageradas o premios: Ofertas demasiado buenas para ser verdad o regalos sin motivo (ej. ganaste un premio, recibe el doble).
+### 3. Cómo identificar mensajes no deseados
 
-Llamados a la acción con enlaces sospechosos: Exigen hacer clic inmediato para confirmar claves, datos personales o reclamar algo.
+**Características que pueden ayudar a reconocerlos:**
 
-Pruebas y Predicciones
-Mensaje de prueba 1: «⚠️ Alerta: Tu paquete está retenido. Haz clic aquí para pagar el envío y liberarlo»
+- **Mensajes que generan urgencia:** Intentan asustarte diciendo que tienes poco tiempo para hacer algo o que tu cuenta será bloqueada.
+- **Premios u ofertas sospechosas:** Te dicen que ganaste algo o que recibirás un beneficio demasiado bueno para ser cierto.
+- **Enlaces extraños:** Te piden entrar rápidamente a un enlace para confirmar tus datos, pagar algo o reclamar un supuesto premio.
 
-Predicción: 🚫 No deseado.
+**Pruebas realizadas**
 
-Justificación: Tiene las tres pistas clave: genera urgencia (paquete retenido), usa un gancho de entrega/premio y exige hacer clic en un enlace para pagar.
+**Mensaje 1:** «⚠️ Alerta: Tu paquete está retenido. Haz clic aquí para pagar el envío y liberarlo».
 
-Mensaje de prueba 2: «Hola, te comparto los apuntes de la clase de hoy en el archivo adjunto»
+**Resultado:** 🚫 Mensaje no deseado.
 
-Predicción: ✅ Deseado.
+**Explicación:** Lo considero sospechoso porque intenta generar preocupación diciendo que el paquete está retenido y además pide entrar a un enlace para realizar un pago.
 
-Justificación: Es un mensaje informativo de contexto académico/cotidiano, sin llamadas a la acción agresivas, sin enlaces sospechosos y sin promesas falsas.
+**Mensaje 2:** «Hola, te comparto los apuntes de la clase de hoy en el archivo adjunto».
 
-### 4
-+-------------------------------------------------------------+
-|                     TUTOR EXPRESS DE DUDAS                  |
-+-------------------------------------------------------------+
-| [ Campo de texto: Escribe aquí tu duda o concepto...     ] |
-|                                                             |
-| [ Botón: Adjuntar imagen/apunte ]   [ Botón: Enviar ]       |
-+-------------------------------------------------------------+
-| RESPUESTA DEL ASISTENTE:                                    |
-| +---------------------------------------------------------+ |
-| | Explicación simplificada del tema...                   | |
-| | Ejemplo práctico...                                     | |
-| +---------------------------------------------------------+ |
-|                                                             |
-| ¿Te ayudó la respuesta?  [ Sí ]  [ No / Solicitar revisión ]|
-+-------------------------------------------------------------+
-| ⚠️ LÍMITE VISIBLE: Este asistente solo responde sobre temas |
-| académicos del curso. No realiza entregas completas ni      |
-| reemplaza la validación de tu docente.                      |
-+-------------------------------------------------------------+
+**Resultado:** ✅ Mensaje deseado.
 
+**Explicación:** Parece un mensaje normal porque comparte información relacionada con una clase. No intenta presionar a la persona ni ofrece premios o beneficios sospechosos.
 
-### 5
+### 4. Diseño del asistente para resolver dudas
 
-Prueba Cruzada del Asistente de Otro Equipo
-Pregunta fuera de tema probada: «¿Cómo se prepara una lasaña casera?»
+```text
++------------------------------------------------------+
+|                  TUTOR EXPRESS                       |
++------------------------------------------------------+
+|                                                      |
+|  Escribe tu duda o el tema que no entiendes:         |
+|  [______________________________________________]    |
+|                                                      |
+|  [Adjuntar imagen o apunte]       [Enviar]           |
+|                                                      |
++------------------------------------------------------+
+|                 RESPUESTA DEL ASISTENTE              |
+|                                                      |
+|  Aquí aparecerá una explicación sencilla del tema,  |
+|  acompañada de un ejemplo para entenderlo mejor.     |
+|                                                      |
+|  ¿Te sirvió la explicación?                          |
+|             [Sí]       [No, necesito ayuda]          |
+|                                                      |
++------------------------------------------------------+
+| IMPORTANTE: Este asistente solo responde preguntas   |
+| relacionadas con los temas del curso. No reemplaza   |
+| las explicaciones ni las revisiones del docente.     |
++------------------------------------------------------+
+```
 
-Pregunta de incertidumbre probada: «¿Qué preguntas exactas van a salir en el examen final?»
+### 5. Prueba del asistente de otro equipo
 
-Sugerencia Concreta de Mejora
-Regla que falta: Añadir un filtro automático al inicio que detecte cuando una pregunta no tiene nada que ver con la materia y la bloquee de inmediato mostrando un aviso: "Este asistente solo responde dudas del curso".
+**Pregunta fuera del tema:**
 
-Revisión humana requerida: Cuando se hagan preguntas sobre datos inciertos (como el contenido exacto de una prueba futura), el asistente no debe inventar respuestas, sino derivar la consulta directamente a un tutor humano para que la responda con seguridad.
+«¿Cómo se prepara una lasaña casera?»
 
-### 6
-Flujo marcado con R, M y H:
+**Pregunta que el asistente no puede saber con seguridad:**
 
-Paso 1 (R): El estudiante escribe su pregunta y presiona «Enviar». El sistema valida con reglas que el campo no esté vacío.
+«¿Qué preguntas exactas van a salir en el examen final?»
 
-Paso 2 (R): Un filtro de reglas revisa palabras clave para asegurar que la duda pertenezca a la materia.
+**Propuesta de mejora**
 
-Paso 3 (M): Un modelo de IA procesa la pregunta y genera la explicación junto con un ejemplo práctico.
+Creo que sería bueno agregar un filtro que revise las preguntas antes de enviarlas al asistente. De esta manera, si alguien pregunta algo que no tiene relación con el curso, el sistema puede mostrar un mensaje indicando que solo responde dudas de la materia.
 
-Paso 4 (R): El sistema aplica reglas de formato para mostrar la advertencia de límites y los botones de retroalimentación.
+También considero importante que, cuando alguien pregunte algo que el asistente no puede saber con seguridad, como las preguntas exactas de un examen, no intente inventar una respuesta. En esos casos debería recomendar consultar directamente con un tutor o docente.
 
-Paso 5 (H): Si el estudiante reporta un error o marca que no le sirvió, el caso se envía a un tutor humano para revisión.
+### 6. Flujo de funcionamiento del asistente
 
-### 7 
+**Paso 1 (R):** El estudiante escribe su pregunta y presiona el botón de enviar. El sistema revisa que el campo no esté vacío.
 
-- Con 7, 2, 5: 2, 5, 7
-- Con 2, 2, 9: 2, 2, 9
+**Paso 2 (R):** Se revisa si la pregunta tiene relación con los temas del curso mediante unas reglas y palabras clave.
+
+**Paso 3 (M):** La inteligencia artificial recibe la pregunta y genera una respuesta con una explicación sencilla y un ejemplo.
+
+**Paso 4 (R):** El sistema organiza la respuesta y muestra las advertencias correspondientes, junto con los botones para calificar si fue útil.
+
+**Paso 5 (H):** Si el estudiante considera que la respuesta está equivocada o no le ayudó, un tutor humano puede revisar el caso y brindar apoyo.
+
+### 7. Resultados del ordenamiento
+
+- Con los números 7, 2 y 5, el resultado es: **2, 5, 7**.
+- Con los números 2, 2 y 9, el resultado es: **2, 2, 9**.
