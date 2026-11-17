@@ -73,6 +73,66 @@ function ventasPorCiudad(ventas, ciudad) {
     return total;
 }
 
+function totalVendidoM(ventas) {
+    return ventas
+        .filter((venta) => venta.cantidad > 0)
+        .reduce((total, venta) => total + valorVenta(venta), 0);
+}
+
+function unidadesVendidasM(ventas) {
+    return ventas
+        .filter((venta) => venta.cantidad > 0)
+        .reduce((total, venta) => total + venta.cantidad, 0);
+}
+
+function ventasPorCiudadM(ventas, ciudad) {
+    const ciudadBuscada = ciudad.trim().toLowerCase();
+
+    return ventas
+        .filter((venta) => {
+            const ciudadVenta = venta.ciudad.trim().toLowerCase();
+            return ciudadVenta === ciudadBuscada && venta.cantidad > 0;
+        })
+        .reduce((total, venta) => total + valorVenta(venta), 0);
+}
+
+function totalPorCiudad(ventas) {
+    return ventas
+        .filter((venta) => venta.cantidad > 0)
+        .reduce((totales, venta) => {
+            const ciudad = venta.ciudad.trim().toLowerCase();
+            totales[ciudad] = (totales[ciudad] || 0) + valorVenta(venta);
+            return totales;
+        }, {});
+}
+
+function unidadesPorProducto(ventas) {
+    return ventas
+        .filter((venta) => venta.cantidad > 0)
+        .reduce((unidades, venta) => {
+            const producto = venta.producto;
+            unidades[producto] = (unidades[producto] || 0) + venta.cantidad;
+            return unidades;
+        }, {});
+}
+
+function topProductosPorValor(ventas, k) {
+    const totalesPorProducto = ventas
+        .filter((venta) => venta.cantidad > 0)
+        .reduce((totales, venta) => {
+            const producto = venta.producto;
+            totales[producto] =
+                (totales[producto] || 0) + valorVenta(venta);
+
+            return totales;
+        }, {});
+
+    return Object.entries(totalesPorProducto)
+        .map(([producto, total]) => ({ producto, total }))
+        .sort((a, b) => b.total - a.total)
+        .slice(0, k);
+}
+
 module.exports = {
     valorVenta,
     totalVendido,
@@ -80,4 +140,10 @@ module.exports = {
     ventaMayor,
     ticketPromedio,
     ventasPorCiudad,
+    totalVendidoM,
+    unidadesVendidasM,
+    ventasPorCiudadM,
+    totalPorCiudad,
+    unidadesPorProducto,
+    topProductosPorValor
 };

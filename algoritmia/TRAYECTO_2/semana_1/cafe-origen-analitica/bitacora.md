@@ -92,3 +92,48 @@ Recorro las ventas válidas y guardo el registro con mayor valor (`cantidad × p
 | 12 | 78.000 | 168.000 (id 10) |
 
 Resultado manual: el registro con **id 10**, cuyo valor es **$168.000**. Resultado del programa (`ventaMayor`): registro con id `10`, `cantidad: 4` y `precio: 42000`. Coinciden.
+
+
+## Cómo responden las funciones a las preguntas de la sesión
+
+### `totalVendidoM(ventas)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las que tienen `cantidad > 0`.
+- **¿Qué transformo?** No transformo cada venta; calculo su valor con `valorVenta(venta)`.
+- **¿Qué acumulo?** El valor de todas las ventas válidas.
+- **¿Cómo agrupo?** No agrupo; obtengo un único total.
+
+### `unidadesVendidasM(ventas)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las que tienen `cantidad > 0`.
+- **¿Qué transformo?** No transformo los registros.
+- **¿Qué acumulo?** La cantidad de unidades de cada venta válida.
+- **¿Cómo agrupo?** No agrupo; obtengo un único total de unidades.
+
+### `ventasPorCiudadM(ventas, ciudad)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las ventas válidas cuya ciudad coincide con la ciudad indicada, ignorando mayúsculas y espacios sobrantes.
+- **¿Qué transformo?** Normalizo los nombres de ciudad para compararlos.
+- **¿Qué acumulo?** El valor de las ventas que coinciden.
+- **¿Cómo agrupo?** No agrupo todas las ciudades; calculo el total de una ciudad solicitada.
+
+### `totalPorCiudad(ventas)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las que tienen `cantidad > 0`.
+- **¿Qué transformo?** Normalizo cada ciudad con `trim()` y `toLowerCase()`.
+- **¿Qué acumulo?** El valor de cada venta.
+- **¿Cómo agrupo?** En un objeto cuyas claves son las ciudades normalizadas y cuyos valores son los totales vendidos allí.
+
+### `unidadesPorProducto(ventas)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las que tienen `cantidad > 0`.
+- **¿Qué transformo?** No transformo los registros; uso el nombre del producto como clave.
+- **¿Qué acumulo?** Las unidades vendidas.
+- **¿Cómo agrupo?** En un objeto con un total de unidades para cada producto.
+
+### `topProductosPorValor(ventas, k)`
+- **¿Qué recorro?** Las ventas.
+- **¿Qué filtro?** Las que tienen `cantidad > 0`.
+- **¿Qué transformo?** Calculo el valor de cada venta y convierto los totales agrupados en un arreglo de productos y totales.
+- **¿Qué acumulo?** El valor vendido por producto.
+- **¿Cómo agrupo?** En un objeto por producto; luego ordeno el arreglo resultante de mayor a menor y tomo los primeros `k`.
