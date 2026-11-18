@@ -137,3 +137,59 @@ Resultado manual: el registro con **id 10**, cuyo valor es **$168.000**. Resulta
 - **¿Qué transformo?** Calculo el valor de cada venta y convierto los totales agrupados en un arreglo de productos y totales.
 - **¿Qué acumulo?** El valor vendido por producto.
 - **¿Cómo agrupo?** En un objeto por producto; luego ordeno el arreglo resultante de mayor a menor y tomo los primeros `k`.
+
+
+### NOV 17 - Aprendí el uso del while
+Por medio de un ejemplo practico sobre el ordenamiento de encontrar una canción en una playlist. Entendí que el while se usa cuando no se sabe cuantas veces se va a repetir un proceso, a diferencia del for que se usa cuando se sabe cuantas veces se va a repetir un proceso.
+
+---
+
+## NOV 18 - Práctica de JavaScript: Búsqueda con While, Manipulación de Arreglos y Algoritmo Burbuja
+
+Durante esta jornada reforcé conceptos fundamentales de lógica y estructuras de datos en JavaScript mediante dos ejercicios prácticos:
+
+### 1. Búsqueda y control de flujo con `while` (`exercice_while.js`)
+* **Simulación de Playlist:** Creación de un arreglo con nombres de canciones (`canciones`) para simular una búsqueda lineal.
+* **Manejo de punteros/índices:** Uso de una variable contadora (`i = 0`) e incremento manual (`i++`) para avanzar posición por posición mientras `i < canciones.length`.
+* **Condición y detención temprana (`break`):**
+  * Comparación lógica (`canciones[i] == buscada`) para identificar el elemento objetivo.
+  * Uso de la instrucción `break` para detener el ciclo `while` inmediatamente al encontrar la coincidencia, optimizando la ejecución al no seguir recorriendo la lista innecesariamente.
+
+### 2. Métodos de arreglos y ordenamiento burbuja (`practice.js`)
+* **Operaciones básicas con arreglos:**
+  * `.push()`: Agregar elementos al final del arreglo.
+  * Acceso dinámico al último elemento: `array_num[array_num.length - 1]`.
+  * `.pop()`: Extraer y retornar el último elemento.
+  * `.filter()`: Filtrado inmutable de elementos según una condición lógica (ej. excluir el número `7`).
+* **Comprensión de Índices vs. Valores:** Análisis de la relación entre la posición en memoria (`0, 1, 2...`) y el dato almacenado.
+* **Algoritmo de Ordenamiento Burbuja (*Bubble Sort*):**
+  * **Estructura de doble ciclo (`for` anidados):**
+    * **Bucle externo (`j`):** Cuenta las rondas o pasadas necesarias (`numeros.length - 1`). Con $N - 1$ pasadas se garantiza el ordenamiento de los $N$ elementos.
+    * **Bucle interno (`i`):** Recorre la lista comparando parejas adyacentes (`numeros[i] > numeros[i + 1]`). Utiliza el límite optimizado `numeros.length - 1 - j` para evitar re-inspeccionar los números que ya quedaron fijados al final en rondas previas y evitar salirse del rango del arreglo.
+  * **Intercambio de valores (*Swap*):** Uso de la técnica de la variable auxiliar (`let temporal`) para intercambiar de posición dos valores adyacentes de forma segura sin sobreescribir datos.
+
+---
+
+## NOV 18 - Práctica de JavaScript: Búsqueda con While, Manipulación de Arreglos y Algoritmo Burbuja
+
+Durante esta jornada reforcé conceptos fundamentales de lógica y estructuras de datos en JavaScript mediante dos ejercicios prácticos:
+
+### 1. Búsqueda y control de flujo con `while` (`exercice_while.js`)
+* **Simulación de Playlist:** Creación de un arreglo con nombres de canciones (`canciones`) para simular una búsqueda lineal.
+* **Manejo de punteros/índices:** Uso de una variable contadora (`i = 0`) e incremento manual (`i++`) para avanzar posición por posición mientras `i < canciones.length`.
+* **Condición y detención temprana (`break`):**
+  * Comparación lógica (`canciones[i] == buscada`) para identificar el elemento objetivo.
+  * Uso de la instrucción `break` para detener el ciclo `while` inmediatamente al encontrar la coincidencia, optimizando la ejecución al no seguir recorriendo la lista innecesariamente.
+
+### 2. Métodos de arreglos y ordenamiento burbuja (`practice.js`)
+* **Operaciones básicas con arreglos:**
+  * `.push()`: Agregar elementos al final del arreglo.
+  * Acceso dinámico al último elemento: `array_num[array_num.length - 1]`.
+  * `.pop()`: Extraer y retornar el último elemento.
+  * `.filter()`: Filtrado inmutable de elementos según una condición lógica (ej. excluir el número `7`).
+* **Comprensión de Índices vs. Valores:** Análisis de la relación entre la posición en memoria (`0, 1, 2...`) y el dato almacenado.
+* **Algoritmo de Ordenamiento Burbuja (*Bubble Sort*):**
+  * **Estructura de doble ciclo (`for` anidados):**
+    * **Bucle externo (`j`):** Cuenta las rondas o pasadas necesarias (`numeros.length - 1`). Con $N - 1$ pasadas se garantiza el ordenamiento de los $N$ elementos.
+    * **Bucle interno (`i`):** Recorre la lista comparando parejas adyacentes (`numeros[i] > numeros[i + 1]`). Utiliza el límite optimizado `numeros.length - 1 - j` para evitar re-inspeccionar los números que ya quedaron fijados al final en rondas previas y evitar salirse del rango del arreglo.
+  * **Intercambio de valores (*Swap*):** Uso de la técnica de la variable auxiliar (`let temporal`) para intercambiar de posición dos valores adyacentes de forma segura sin sobreescribir datos.
