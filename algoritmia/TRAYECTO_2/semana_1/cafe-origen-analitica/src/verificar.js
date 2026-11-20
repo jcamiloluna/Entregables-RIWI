@@ -7,6 +7,9 @@ const {
     unidadesVendidasM,
     ventasPorCiudad,
     ventasPorCiudadM,
+    clientesRecurrentes,
+    totalCiudadCadena,
+    totalCiudadUnaPasada
 } = require("./analitica.js");
 
 function verificar(nombre, resultadoCiclo, resultadoMetodo) {
@@ -32,4 +35,14 @@ verificar(
     "Ventas en Medellín",
     ventasPorCiudad(ventas, "Medellín"),
     ventasPorCiudadM(ventas, "Medellín")
+);
+
+console.log("Clientes recurrentes:", clientesRecurrentes(ventas));
+console.log(
+    "Con cadena:",
+    totalCiudadCadena(ventas, "Medellín")
+);
+console.log(
+    "Una pasada:",
+    totalCiudadUnaPasada(ventas, "Medellín")
 );

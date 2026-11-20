@@ -193,3 +193,116 @@ Durante esta jornada reforcé conceptos fundamentales de lógica y estructuras d
     * **Bucle externo (`j`):** Cuenta las rondas o pasadas necesarias (`numeros.length - 1`). Con $N - 1$ pasadas se garantiza el ordenamiento de los $N$ elementos.
     * **Bucle interno (`i`):** Recorre la lista comparando parejas adyacentes (`numeros[i] > numeros[i + 1]`). Utiliza el límite optimizado `numeros.length - 1 - j` para evitar re-inspeccionar los números que ya quedaron fijados al final en rondas previas y evitar salirse del rango del arreglo.
   * **Intercambio de valores (*Swap*):** Uso de la técnica de la variable auxiliar (`let temporal`) para intercambiar de posición dos valores adyacentes de forma segura sin sobreescribir datos.
+
+
+## Depuración de errores reportados por la gerente
+
+La versión preliminar con los errores originales no está disponible en este proyecto. Para reproducir sus condiciones, preparé entradas mínimas para cada caso y verifiqué que la versión actual las maneja correctamente con `node src/verificarErrores.js`.
+
+### Caso 1: Bogotá aparece dos veces
+
+- **Síntoma:** Bogotá puede aparecer como dos grupos cuando uno de los nombres tiene espacios sobrantes o distinta capitalización.
+- **Entrada que lo produce:** dos ventas: `{ ciudad: "Bogotá", cantidad: 1, precio: 100 }` y `{ ciudad: "Bogotá ", cantidad: 2, precio: 50 }`.
+- **Hipótesis:** agrupar directamente con el texto original crea claves distintas para `"Bogotá"` y `"Bogotá "`.
+- **Prueba realizada:** ejecuté `totalPorCiudad` con esas dos ventas y comprobé con `assert.deepEqual` que el resultado es `{ "bogotá": 200 }`, con una sola clave.
+- **Causa:** los nombres de ciudad necesitan normalización antes de usarse como claves.
+- **Corrección:** `totalPorCiudad` aplica `trim().toLowerCase()` antes de agrupar. Así elimina espacios al inicio o al final y unifica mayúsculas y minúsculas.
+
+### Caso 2: ticket promedio `NaN` en un día sin ventas
+
+- **Síntoma:** el ticket promedio resulta `NaN` al calcularlo para una fecha sin ventas.
+- **Entrada que lo produce:** el arreglo vacío obtenido con `ventasDelDia(ventas, "1900-01-01")`.
+- **Hipótesis:** una implementación que divide el total entre el número de ventas válidas sin revisar si el contador es cero hace una división `0 / 0`.
+- **Prueba realizada:** ejecuté `ticketPromedio` con el arreglo vacío; comprobé que devuelve `0` y que `Number.isNaN(...)` es `false`.
+- **Causa:** no hay compras válidas con las cuales calcular un promedio, por lo que el divisor es cero.
+- **Corrección:** `ticketPromedio` revisa `cantidadVentasValidas === 0` y devuelve `0` antes de dividir.
+
+
+## Predicción antes de medir
+
+Contaré como operaciones las visitas a ventas y las comparaciones registradas en el objeto contador. Predigo que las tres funciones tienen crecimiento lineal: si `n` se multiplica por 10, las operaciones crecerán aproximadamente 10 veces, siempre que la proporción de ventas válidas se mantenga similar.
+
+| Función | Predicción |
+|---|---|
+| `totalVendidoInstrumentado` | Hace una visita y una comparación por venta: `2n` operaciones. Al multiplicar `n` por 10, las operaciones se multiplican exactamente por 10. |
+| `ventaMayorInstrumentada` | Hace una visita y al menos una comparación por venta. Para las ventas válidas, también compara si ya hay una venta mayor y, cuando corresponde, compara los valores. Espero aproximadamente 10 veces más operaciones al multiplicar `n` por 10. |
+| `totalPorCiudadInstrumentado` | Hace una visita y comprueba la cantidad por venta; además, revisa si ya existe el grupo de ciudad para cada venta válida. Espero aproximadamente 10 veces más operaciones si se conserva la proporción de ventas válidas. |
+
+La cantidad exacta puede variar según cuántas ventas tengan `cantidad > 0`, porque esas ventas activan comparaciones adicionales. La predicción es lineal (`O(n)`); el contador mide visitas y comparaciones, no todos los pasos internos de JavaScript.
+
+
+## Comparación de predicciones y resultados
+
+En la medición conté las visitas y comparaciones registradas. `primeraVenta` cuenta un acceso directo a `ventas[0]`.
+
+| n | `primeraVenta` | `totalVendido` | `ventaMayor` | `totalPorCiudad` |
+|---:|---:|---:|---:|---:|
+| 100 | 1 | 200 | 399 | 300 |
+| 1.000 | 1 | 2.000 | 3.999 | 3.000 |
+| 10.000 | 1 | 20.000 | 39.999 | 30.000 |
+| 100.000 | 1 | 200.000 | 399.999 | 300.000 |
+
+### Clasificación
+
+- **`primeraVenta`: O(1).** Accede directamente a `ventas[0]`; el número de operaciones no cambia al aumentar el arreglo.
+- **`totalVendidoInstrumentado`: O(n).** Tiene un solo ciclo: visita cada venta y comprueba `cantidad > 0`. Sus operaciones son `2n`, por eso se multiplican por 10 cuando `n` se multiplica por 10.
+- **`ventaMayorInstrumentada`: O(n).** Tiene un solo ciclo. Por cada venta comprueba la cantidad y actualiza el máximo; el resultado es `4n - 1` con estos datos. Al crecer `n` diez veces, el conteo queda cerca de diez veces el anterior.
+- **`totalPorCiudadInstrumentado`: O(n).** Tiene un solo ciclo y hace una cantidad constante de comprobaciones por venta; en esta medición son `3n` operaciones.
+
+Los resultados confirman la predicción de crecimiento constante para `primeraVenta` y lineal para las otras tres. Ninguna función tiene dos ciclos anidados que recorran las ventas, así que ninguna es **O(n²)**.
+
+## Traza de `clientesRecurrentes` con 5 ventas
+
+Uso estos clientes en orden: `C01`, `C02`, `C01`, `C03`, `C02`.
+
+| `i` | Comparaciones de cliente (`j`) | Cantidad |
+|---:|---|---:|
+| 0 | C01-C02, C01-C01, C01-C03, C01-C02 | 4 |
+| 1 | C02-C01, C02-C03, C02-C02 | 3 |
+| 2 | C01-C03, C01-C02 | 2 |
+| 3 | C03-C02 | 1 |
+| | **Total de comparaciones entre pares** | **10** |
+
+La función detecta como recurrentes a `C01` y `C02`.
+
+Con `n` ventas, el ciclo externo compara la venta `i` con todas las que vienen después. El total de comparaciones entre pares es:
+
+`(n - 1) + (n - 2) + ... + 1 = n(n - 1) / 2`
+
+Para 5 ventas: `5 × 4 / 2 = 10` comparaciones. Este conteo incluye las comparaciones entre pares de clientes; `recurrentes.includes(...)` puede hacer comparaciones adicionales, según los clientes encontrados.
+
+## Análisis del tiempo de `clientesRecurrentes`
+
+Al duplicar la cantidad de ventas, comparé el tiempo de cada fila con el de la siguiente. El tiempo tiende a crecer aproximadamente 4 veces, aunque hay variaciones por la máquina, los datos aleatorios y la precisión de las mediciones.
+
+Esto concuerda con O(n²): los ciclos anidados comparan cada venta con las que vienen después. El número de comparaciones entre pares es `n(n - 1) / 2`; al duplicar `n`, ese número se acerca a cuatro veces el anterior.
+
+## Estimación de medición en cuánto tardaría la función con 100.000 y con 1.000.000 de ventas
+El calculo que me sugirió la ia fue la siguiente: 
+  // Con 16.000 ventas, el tiempo medido fue 0,915 s. La estimación cuadrática para 100.000 fue 35,7 s, menor a dos minutos, asi que en una prueba podría tardar 39,314 s. Con ese resultado, se estima que 1.000.000 de ventas tardaría cerca de 65 min 31 s. Esta última cifra es una extrapolación, no una medición.
+
+## Costo oculto de `recurrentes.includes`
+
+`recurrentes.includes(cliente)` también recorre el arreglo `recurrentes` hasta encontrar el cliente o llegar al final. En cada coincidencia de clientes dentro de los dos ciclos puede hacer una búsqueda adicional que cuesta hasta O(n). En el peor caso, esas búsquedas, sumadas al recorrido de pares O(n²), pueden llevar la función a O(n³). La fórmula `n(n - 1) / 2` cuenta las comparaciones entre pares de ventas, pero no las comparaciones internas de `includes`.
+
+## Conclusión para la gerente
+
+El reporte se demora porque, para encontrar quién volvió a comprar, compara muchas parejas de ventas y, al encontrar un cliente repetido, vuelve a buscarlo en una lista de clientes. A medida que crece el historial, estas revisiones se multiplican y el reporte tarda mucho más.
+
+## Memoria que usa cada función
+
+No cuento el arreglo `ventas` que recibe cada función; cuento la memoria adicional que necesita para trabajar.
+
+Usan memoria adicional constante, O(1): `valorVenta`, `totalVendido`, `unidadesVendidas`, `ventaMayor`, `ticketPromedio`, `ventasPorCiudad`, `totalVendidoM`, `unidadesVendidasM`, `ventasPorCiudadM`, `ventasDelDia` no: esta última usa `filter`, así que crea otro arreglo. También son O(1) `totalVendidoInstrumentado`, `ventaMayorInstrumentada` y `primeraVenta`. Las funciones instrumentadas actualizan el contador que reciben.
+
+Usan memoria que crece con los datos, O(n): `totalVendidoM`, `unidadesVendidasM`, `ventasPorCiudadM` y `ventasDelDia`, porque `filter` crea un arreglo nuevo. `totalPorCiudad` y `totalPorCiudadInstrumentado` crean un objeto que puede tener una clave por ciudad. `unidadesPorProducto` y `topProductosPorValor` crean resultados agrupados por producto. `clientesRecurrentes` guarda una lista de clientes. `totalCiudadCadena` crea varios arreglos intermedios. `generarVentas(n)` también usa O(n), porque construye un arreglo de n ventas.
+
+Aunque `topProductosPorValor` solo devuelve los primeros k productos, antes crea arreglos y un objeto que pueden crecer con todos los productos. Por eso su espacio es O(n), no O(k).
+
+## Qué versión de `totalCiudad` dejo
+
+Voy a dejar `totalCiudadUnaPasada`. La cadena de métodos me parece más fácil de leer, pero crea arreglos intermedios y recorre los datos varias veces. La versión de una pasada necesita menos memoria y va directa al total. Las dos son O(n) en tiempo; para este reporte prefiero ahorrar memoria y trabajo extra.
+
+## Revisión del informe
+- **Observación:** Los tiempos pueden cambiar según el computador; sería bueno aclarar que son aproximados.
+- **Respuesta:** De acuerdo. En el informe indiqué que las mediciones son orientativas y pueden variar en otro equipo.
